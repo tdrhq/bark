@@ -65,10 +65,15 @@ class TestBark(unittest.TestCase):
 
     def test_linear_dep_finder(self):
         self.add_commit(a="foo")
-        self.checkout("parent")
 
+        self.checkout("parent")
         self.add_commit(b="bar")
-        self.checkout("child")
+
+        self.checkout("child", "parent")
+        self.add_commit(c="car")
+
+        self.checkout("otherchild", "parent")
+        self.add_commit(c="car2")
 
         self.bark.manage_feature("parent")
         self.bark.manage_feature("child")
