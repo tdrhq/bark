@@ -74,14 +74,14 @@ class TestBark(unittest.TestCase):
 
         self.checkout("otherchild", "parent")
         self.add_commit(c="car2")
+        self.bark.manage_feature("parent")
+        self.bark.manage_feature("child")
+        self.bark.manage_feature("otherchild")
+
 
 
     def test_linear_dep_finder(self):
         self._build_tree()
-
-        self.bark.manage_feature("parent")
-        self.bark.manage_feature("child")
-        self.bark.manage_feature("otherchild")
 
         self.assertEquals(["parent"], self.bark.get_deps("child"))
 
@@ -90,6 +90,10 @@ class TestBark(unittest.TestCase):
 
         self.checkout("child3", "child")
         self.bark.manage_feature("child3")
+
+        subprocess.check_call("git log --graph -a | cat", shell=True)
+
+        self.assertEquals(["parent", "child"], self.bark.get_deps("child3"))
 
 if __name__ == '__main__':
     unittest.main()
