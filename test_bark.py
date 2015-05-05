@@ -81,11 +81,15 @@ class TestBark(unittest.TestCase):
 
         self.bark.manage_feature("parent")
         self.bark.manage_feature("child")
+        self.bark.manage_feature("otherchild")
 
         self.assertEquals(["parent"], self.bark.get_deps("child"))
 
     def test_direct_deps(self):
-        pass
+        self._build_tree()
+
+        self.checkout("child3", "child")
+        self.bark.manage_feature("child3")
 
 if __name__ == '__main__':
     unittest.main()
