@@ -47,8 +47,8 @@ class TestBark(unittest.TestCase):
 
         self.assertNotEquals(h1, h2)
 
-    def checkout(self, branch_name):
-        check_output(["git", "checkout", "-b", branch_name])
+    def checkout(self, branch_name, parent="HEAD"):
+        check_output(["git", "checkout", "-b", branch_name, parent])
 
     def test_list_managed(self):
         self.checkout("foo-branch")
