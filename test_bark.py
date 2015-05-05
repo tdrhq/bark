@@ -63,7 +63,7 @@ class TestBark(unittest.TestCase):
         except bark.BadArgs:
             pass  # expected
 
-    def test_linear_dep_finder(self):
+    def _build_tree(self):
         self.add_commit(a="foo")
 
         self.checkout("parent")
@@ -75,10 +75,17 @@ class TestBark(unittest.TestCase):
         self.checkout("otherchild", "parent")
         self.add_commit(c="car2")
 
+
+    def test_linear_dep_finder(self):
+        self._build_tree()
+
         self.bark.manage_feature("parent")
         self.bark.manage_feature("child")
 
         self.assertEquals(["parent"], self.bark.get_deps("child"))
+
+    def test_direct_deps(self):
+        pass
 
 if __name__ == '__main__':
     unittest.main()
