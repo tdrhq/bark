@@ -91,8 +91,6 @@ class TestBark(unittest.TestCase):
         self.checkout("child3", "child")
         self.bark.manage_feature("child3")
 
-        subprocess.check_call("git log --graph -a | cat", shell=True)
-
         self.assertEquals(["parent", "child"], self.bark.get_deps("child3"))
 
 if __name__ == '__main__':
