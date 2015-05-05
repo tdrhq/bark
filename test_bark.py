@@ -8,6 +8,7 @@ import tempfile
 import shutil
 import os
 import subprocess
+import bark
 
 from bark import Bark
 from subprocess import *
@@ -53,6 +54,14 @@ class TestBark(unittest.TestCase):
         self.bark.manage_feature("foo-branch")
 
         self.assertEquals(["foo-branch"], self.bark.list_features())
+
+    def test_non_existent_feature(self):
+        try:
+            self.bark.manage_feature("doesnotexist")
+            self.fail("expected exception")
+        except bark.BadArgs:
+            pass  # expected
+
 
 if __name__ == '__main__':
     unittest.main()

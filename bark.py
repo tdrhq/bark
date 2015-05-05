@@ -8,11 +8,19 @@ from __future__ import unicode_literals
 import getopt
 
 import logging
+import subprocess
+import os
 
 FEATURE_FILE = '.bark_features'
 
+class BadArgs(BaseException):
+    pass
+
 class Bark:
     def manage_feature(self, feature):
+        if subprocess.call(['git', 'rev-parse', feature]) != 0:
+            raise BadArgs()
+
         with open(FEATURE_FILE, "a") as f:
             f.write(feature + "\n")
 
