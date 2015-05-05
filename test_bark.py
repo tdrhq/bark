@@ -37,8 +37,8 @@ class TestBark(unittest.TestCase):
             f.close()
 
             subprocess.check_output(["git", "add", k])
-            subprocess.check_output(["git", "commit", "-a", "-m", "stuff"])
 
+        subprocess.check_output(["git", "commit", "-a", "-m", "stuff"])
         return subprocess.check_output(["git", 'rev-parse', 'HEAD'])
 
     def test_add_commit(self):
