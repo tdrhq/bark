@@ -9,6 +9,9 @@ import shutil
 import os
 import subprocess
 
+from bark import Bark
+from subprocess import *
+
 class TestBark(unittest.TestCase):
     def setUp(self):
         self.tmpdir = tempfile.mkdtemp()
@@ -16,6 +19,8 @@ class TestBark(unittest.TestCase):
         os.chdir(self.tmpdir)
         subprocess.check_output(["git", "init"])
         self.add_commit("foobar")
+
+        self.bark = Bark()
 
     def tearDown(self):
         os.chdir(self.olddir)
@@ -39,6 +44,15 @@ class TestBark(unittest.TestCase):
         h2 = self.add_commit("bar")
 
         self.assertNotEquals(h1, h2)
+
+    def checkout(self, branch_name):
+        check_output(["git", "checkout", "-b", branch_name])
+
+    def test_list_managed(self):
+        self.checkout("foo-branch")
+        self.bark.manage_feature("foo-branch")
+
+        self.assertEquals(["foo-branch"], self.bark.list_features())
 
 if __name__ == '__main__':
     unittest.main()

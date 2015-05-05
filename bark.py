@@ -7,7 +7,18 @@ from __future__ import unicode_literals
 
 import getopt
 
-import loggin
+import logging
+
+FEATURE_FILE = '.bark_features'
+
+class Bark:
+    def manage_feature(self, feature):
+        with open(FEATURE_FILE, "a") as f:
+            f.write(feature + "\n")
+
+    def list_features(self):
+        with open(FEATURE_FILE, "r") as f:
+            return f.read().strip().splitlines()
 
 def usage():
     print("unimplemented")
