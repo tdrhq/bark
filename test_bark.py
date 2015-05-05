@@ -15,6 +15,7 @@ class TestBark(unittest.TestCase):
         self.olddir = os.getcwd()
         os.chdir(self.tmpdir)
         subprocess.check_output(["git", "init"])
+        self.add_commit("foobar")
 
     def tearDown(self):
         os.chdir(self.olddir)
