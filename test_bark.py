@@ -19,7 +19,7 @@ class TestBark(unittest.TestCase):
         self.olddir = os.getcwd()
         os.chdir(self.tmpdir)
         subprocess.check_output(["git", "init"])
-        self.add_commit("foobar")
+        self.add_commit(a="foobar")
 
         self.bark = Bark()
 
@@ -30,19 +30,20 @@ class TestBark(unittest.TestCase):
     def test_setup(self):
         pass
 
-    def add_commit(self, text):
-        f = open("myfile.txt", "w")
-        f.write(text)
-        f.close()
+    def add_commit(self, **files):
+        for k, v in files.iteritems():
+            f = open(str(k), "w")
+            f.write(v)
+            f.close()
 
-        subprocess.check_output(["git", "add", "myfile.txt"])
-        subprocess.check_output(["git", "commit", "-a", "-m", "stuff"])
+            subprocess.check_output(["git", "add", k])
+            subprocess.check_output(["git", "commit", "-a", "-m", "stuff"])
 
         return subprocess.check_output(["git", 'rev-parse', 'HEAD'])
 
     def test_add_commit(self):
-        h1 = self.add_commit("foo")
-        h2 = self.add_commit("bar")
+        h1 = self.add_commit(a="foo")
+        h2 = self.add_commit(a="bar")
 
         self.assertNotEquals(h1, h2)
 
@@ -61,7 +62,6 @@ class TestBark(unittest.TestCase):
             self.fail("expected exception")
         except bark.BadArgs:
             pass  # expected
-
 
 if __name__ == '__main__':
     unittest.main()
