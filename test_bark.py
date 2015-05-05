@@ -92,6 +92,7 @@ class TestBark(unittest.TestCase):
         self.bark.manage_feature("child3")
 
         self.assertEquals(["parent", "child"], self.bark.get_deps("child3"))
+        self.assertEquals(["child"], self.bark.get_direct_deps("child3"))
 
 if __name__ == '__main__':
     unittest.main()

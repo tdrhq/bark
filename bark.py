@@ -45,6 +45,17 @@ class Bark:
 
         return ret
 
+    def get_direct_deps(self, feature):
+        all_deps = self.get_deps(feature)
+        copy = list(all_deps)
+        for d in copy:
+            sub_deps = self.get_deps(d)
+            for sub_dep in sub_deps:
+                if sub_dep in all_deps:
+                    all_deps.remove(sub_dep)
+
+        return all_deps
+
 def usage():
     print("unimplemented")
     sys.exit(1)
