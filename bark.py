@@ -16,6 +16,9 @@ FEATURE_FILE = '.bark_features'
 class BadArgs(BaseException):
     pass
 
+def _rev_parse(rev):
+    return subprocess.check_output(['git', 'rev-parse', rev]).strip()
+
 class Bark:
     def manage_feature(self, feature):
         if subprocess.call(['git', 'rev-parse', feature]) != 0:
@@ -27,6 +30,20 @@ class Bark:
     def list_features(self):
         with open(FEATURE_FILE, "r") as f:
             return f.read().strip().splitlines()
+
+    def get_deps(self, feature):
+        ret = []
+        for other in self.list_features():
+            if other == feature:
+                continue
+
+            merge_base = subprocess.check_output(['git', 'merge-base', other, feature]).strip()
+            other_rev = _rev_parse(other)
+
+            if other_rev == merge_base:
+                ret.append(other)
+
+        return ret
 
 def usage():
     print("unimplemented")
