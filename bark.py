@@ -28,8 +28,18 @@ class Bark:
             f.write(feature + "\n")
 
     def list_features(self):
+        return list(self._read_features().iterkeys())
+
+    def _read_features(self):
+        ret = {}
         with open(FEATURE_FILE, "r") as f:
-            return f.read().strip().splitlines()
+            lines = f.read().strip().splitlines()
+
+            for line in lines:
+                words = line.split()
+                ret[words[0]] = words[1:]
+
+        return ret
 
     def get_deps(self, feature):
         ret = []
