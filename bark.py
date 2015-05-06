@@ -55,23 +55,12 @@ class Bark:
     def add_dep(self, child, parent):
         deps = self._read_features()
 
-        deps[child] += parent
+        deps[child] += [parent]
 
         self._write_features(deps)
 
     def get_deps(self, feature):
-        ret = []
-        for other in self.list_features():
-            if other == feature:
-                continue
-
-            merge_base = subprocess.check_output(['git', 'merge-base', other, feature]).strip()
-            other_rev = _rev_parse(other)
-
-            if other_rev == merge_base:
-                ret.append(other)
-
-        return ret
+        return self._read_features()[feature]
 
 def usage():
     print("unimplemented")
