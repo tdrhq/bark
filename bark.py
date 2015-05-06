@@ -41,9 +41,23 @@ class Bark:
 
         return ret
 
-    def add_dep(self, child, parent):
-        old_deps = self._read_features()
+    def _write_features(self, features):
+        with open(FEATURE_FILE, "w") as f:
+            for feature, deps in features.iteritems():
+                f.write(feature)
 
+                for d in deps:
+                    f.write(" ")
+                    f.write(d)
+
+                f.write("\n")
+
+    def add_dep(self, child, parent):
+        deps = self._read_features()
+
+        deps[child] += parent
+
+        self._write_features(deps)
 
     def get_deps(self, feature):
         ret = []
