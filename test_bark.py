@@ -78,6 +78,9 @@ class TestBark(unittest.TestCase):
         self.bark.manage_feature("child")
         self.bark.manage_feature("otherchild")
 
+        self.bark.add_dep("otherchild", "parent")
+        self.bark.add_dep("child", "parent")
+
     def test_linear_dep_finder(self):
         self._build_tree()
 

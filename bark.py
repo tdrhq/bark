@@ -41,6 +41,10 @@ class Bark:
 
         return ret
 
+    def add_dep(self, child, parent):
+        old_deps = self._read_features()
+
+
     def get_deps(self, feature):
         ret = []
         for other in self.list_features():
