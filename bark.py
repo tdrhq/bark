@@ -63,6 +63,24 @@ class Bark:
     def get_deps(self, feature):
         return self._read_features()[feature]
 
+    def rebase_all(self, feature):
+        deps = self.get_deps(feature)
+
+        # make sure all children are up-to-date before doing anything
+        for d in deps:
+            self.rebase_all(d)
+
+        if len(deps) == 0:
+            return
+
+        subprocess.check_call(["git", "checkout", feature])
+
+        if len(deps) == 1:
+            subprocess.check_call(["git", "rebase", deps[0]])
+            return
+
+        raise RuntimeError("unsupported, too many deps" + str(deps))
+
 def usage():
     print("unimplemented")
     sys.exit(1)

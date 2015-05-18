@@ -13,6 +13,8 @@ import bark
 from bark import Bark
 from subprocess import *
 
+from os.path import exists
+
 class TestBark(unittest.TestCase):
     def setUp(self):
         self.tmpdir = tempfile.mkdtemp()
@@ -50,6 +52,9 @@ class TestBark(unittest.TestCase):
     def checkout(self, branch_name, parent="HEAD"):
         check_output(["git", "checkout", "-b", branch_name, parent])
 
+    def checkout_old(self, branch_name, parent="HEAD"):
+        check_output(["git", "checkout", branch_name])
+
     def test_list_managed(self):
         self.checkout("foo-branch")
         self.bark.manage_feature("foo-branch")
@@ -80,6 +85,16 @@ class TestBark(unittest.TestCase):
 
         self.bark.add_dep("otherchild", "parent")
         self.bark.add_dep("child", "parent")
+
+    def test_rebase(self):
+        self._build_tree()
+
+        self.checkout_old("parent")
+        self.add_commit(z="blah")
+        self.bark.rebase_all("child")
+
+        self.checkout_old("child")
+        self.assertTrue(exists("z"))
 
     def test_linear_dep_finder(self):
         self._build_tree()
