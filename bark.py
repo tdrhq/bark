@@ -69,6 +69,12 @@ def usage():
 def cmd_feature(args, options):
     feature_name = args[1]
 
+instance = Bark()
+
+def manage(rest_args, root_options):
+    branch = rest_args
+    instance.manage_feature(rest_args[1])
+
 def main(argv):
     logging
     try:
@@ -85,7 +91,10 @@ def main(argv):
 
     command = rest_args[0]
 
-    if command.equals(feature):
+    if command == "manage":
+        manage(rest_args, options)
+
+    if command =="feature":
         cmd_feature(rest_args, options)
 
 if __name__ == '__main__':

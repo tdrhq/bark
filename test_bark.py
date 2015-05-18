@@ -86,5 +86,11 @@ class TestBark(unittest.TestCase):
 
         self.assertEquals(["parent"], self.bark.get_deps("child"))
 
+    def test_command_line_manage(self):
+        self.checkout("foo")
+        bark.main(["./a.out", "manage", "foo"])
+        self.assertEquals(["foo"], Bark().list_features())
+
+
 if __name__ == '__main__':
     unittest.main()
