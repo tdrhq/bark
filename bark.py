@@ -10,6 +10,7 @@ import getopt
 import logging
 import subprocess
 import os
+import sys
 
 FEATURE_FILE = '.bark_features'
 
@@ -93,6 +94,10 @@ def main(argv):
 
     if command == "manage":
         manage(rest_args, options)
+
+    if command == "add_dep":
+        instance.add_dep(rest_args[1], rest_args[2])
+
 
     if command =="feature":
         cmd_feature(rest_args, options)

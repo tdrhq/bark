@@ -91,6 +91,15 @@ class TestBark(unittest.TestCase):
         bark.main(["./a.out", "manage", "foo"])
         self.assertEquals(["foo"], Bark().list_features())
 
+    def test_command_line_add_dep(self):
+        self.checkout("foo")
+        self.checkout("bar", "foo")
+
+        Bark().manage_feature("foo")
+        Bark().manage_feature("bar")
+
+        bark.main(["./a.out", "add_dep", "bar", "foo"])
+        self.assertEquals(["foo"], Bark().get_deps("bar"))
 
 if __name__ == '__main__':
     unittest.main()
