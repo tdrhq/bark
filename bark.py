@@ -68,6 +68,7 @@ class Bark:
 
         # make sure all children are up-to-date before doing anything
         for d in deps:
+            print("first updating " + d)
             self.rebase_all(d)
 
         if len(deps) == 0:
@@ -95,7 +96,6 @@ def manage(rest_args, root_options):
     instance.manage_feature(rest_args[1])
 
 def main(argv):
-    logging
     try:
         options, rest_args = getopt.gnu_getopt(
             argv[1:],
@@ -112,6 +112,9 @@ def main(argv):
 
     if command == "manage":
         manage(rest_args, options)
+
+    if command == "rebaseall":
+        instance.rebase_all(rest_args[1])
 
     if command == "add_dep":
         instance.add_dep(rest_args[1], rest_args[2])
