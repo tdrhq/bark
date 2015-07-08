@@ -88,6 +88,7 @@ def usage():
 
 def cmd_feature(args, options):
     feature_name = args[1]
+    instance.manage_feature(feature_name)
 
 instance = Bark()
 
@@ -120,6 +121,8 @@ def main(argv):
         cmd_feature(rest_args, options)
     else:
         raise RuntimeError("unsupported")
+
+    return 0
 
 if __name__ == '__main__':
     main(sys.argv)
