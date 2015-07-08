@@ -10,7 +10,7 @@ import getopt
 import logging
 import os
 import sys
-
+import json
 
 FEATURE_FILE = '.bark_features'
 
@@ -25,6 +25,28 @@ class FeatureDb:
     def __init__(self, filename=FEATURE_FILE):
         self.filename = filename
 
+
+    def _to_json_array(self, features):
+        ret = []
+        for f in features:
+            ret.append({
+                "name": f.name,
+                "deps": f.deps,
+                "base_rev": f.base_rev,
+            })
+        return ret
+
+    def _from_json_array(self, array):
+        ret = []
+        for f in array:
+            ff = Feature()
+            ff.name = f["name"]
+            ff.deps = f["deps"]
+            ff.base_rev = f["base_rev"]
+            ret.append(ff)
+
+        return ret
+
     def _read_features(self):
         ret = []
 
@@ -32,31 +54,16 @@ class FeatureDb:
             return []
 
         with open(self.filename, "r") as f:
-            lines = f.read().strip().splitlines()
-
-            for line in lines:
-                words = line.split()
-                f = Feature()
-                f.name = words[0]
-                f.deps = words[1:]
-                ret.append(f)
-
-        return ret
+            s = f.read()
+            print("json is " + s)
+            return self._from_json_array(json.loads(s))
 
     def list_features(self):
         return self._read_features()
 
     def _write_features(self, features):
         with open(self.filename, "w") as f:
-            for feature in features:
-                f.write(feature.name)
-
-                for d in feature.deps:
-                    f.write(" ")
-                    f.write(d)
-
-                f.write("\n")
-
+            json.dump(self._to_json_array(features), f)
 
     def add_feature(self, feature):
         features = self._read_features()
