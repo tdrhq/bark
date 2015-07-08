@@ -30,6 +30,17 @@ class Bark:
         with open(FEATURE_FILE, "a") as f:
             f.write(feature + "\n")
 
+    def delete_feature(self, feature):
+        # verify feature is not referenced from another feature
+        features = self._read_features()
+        for name, deps in features.iteritems():
+            for f in deps:
+                if f == feature:
+                    raise RuntimeError("Dep in use")
+
+        del features[feature]
+        self._write_features(features)
+
     def list_features(self):
         return list(self._read_features().iterkeys())
 
@@ -93,7 +104,7 @@ def cmd_feature(args, options):
     source_control.add_branch(feature_name)
     instance.manage_feature(feature_name)
 
-def delete_feature(rest_args):
+def delete_feature(args):
     feature_name = args[1]
     instance.delete_feature(feature_name)
     source_control.delete_branch(feature_name)
@@ -128,7 +139,7 @@ def main(argv):
         instance.add_dep(rest_args[1], rest_args[2])
     elif command =="feature":
         cmd_feature(rest_args, options)
-    elif comment == "delete-feature":
+    elif command == "delete-feature":
         delete_feature(rest_args)
     else:
         raise RuntimeError("unsupported")
