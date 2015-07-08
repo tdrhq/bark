@@ -44,6 +44,18 @@ class TestSourceControl(unittest.TestCase):
         self.sc.add_branch("foobar")
         self.assertEquals("foobar", self.sc.current_branch())
 
+    def test_delete_branch(self):
+        self.sc.add_branch("foobar")
+        self.sc.add_branch("foobar3")
+        self.sc.delete_branch("foobar")
+
+        self.assertNotEquals(
+            0,
+            subprocess.call(["git", 'rev-parse', "foobar"]))
+        self.assertEquals(
+            0,
+            subprocess.call(["git", 'rev-parse', "foobar3"]))
+
 
 if __name__ == '__main__':
     unittest.main()
