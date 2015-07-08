@@ -42,3 +42,6 @@ class SourceControl:
 
     def get_master_merge_point(self, rev):
         return subprocess.check_output(["git", "merge-base", rev, self.master]).strip()
+
+    def is_clean(self):
+        return subprocess.call(["git", "diff-index", "--quiet", "HEAD"]) == 0

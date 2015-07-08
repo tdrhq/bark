@@ -85,5 +85,12 @@ class TestSourceControl(unittest.TestCase):
         sc = SourceControl(master="blah")
         self.assertEquals(merge_point, sc.get_master_merge_point("blah2"))
 
+    def test_is_clean(self):
+        self.assertTrue(self.sc.is_clean())
+        with open("a", "w") as f:
+            f.write("blah2")
+
+        self.assertFalse(self.sc.is_clean())
+
 if __name__ == '__main__':
     unittest.main()
