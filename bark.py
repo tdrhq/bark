@@ -57,30 +57,33 @@ class Bark:
 
             for line in lines:
                 words = line.split()
-                ret[words[0]] = words[1:]
+                f = Feature()
+                f.name = words[0]
+                f.deps = words[1:]
+                ret[f.name] = f
 
         return ret
 
     def _write_features(self, features):
         with open(FEATURE_FILE, "w") as f:
-            for feature, deps in features.iteritems():
-                f.write(feature)
+            for feature in features.itervalues():
+                f.write(feature.name)
 
-                for d in deps:
+                for d in feature.deps:
                     f.write(" ")
                     f.write(d)
 
                 f.write("\n")
 
     def add_dep(self, child, parent):
-        deps = self._read_features()
+        features = self._read_features()
 
-        deps[child] += [parent]
+        features[child].deps += [parent]
 
-        self._write_features(deps)
+        self._write_features(features)
 
     def get_deps(self, feature):
-        return self._read_features()[feature]
+        return self._read_features()[feature].deps
 
     def rebase_all(self, feature):
         deps = self.get_deps(feature)
