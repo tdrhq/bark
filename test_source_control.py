@@ -96,12 +96,17 @@ class TestSourceControl(unittest.TestCase):
         self.sc.add_branch("blah")
         self.add_commit(b="woo")
         self.sc.checkout("master")
+        self.sc.add_branch("blah2")
         self.add_commit(d="blahhh")
 
         self.sc.merge("blah")
         self.assertTrue(exists("b"))
         self.assertTrue(exists("d"))
         self.assertTrue(self.sc.is_clean())
+
+    def test_multi_merge_with_two(self):
+        self.test_merge()
+        self.sc.checkout("master")
 
 if __name__ == '__main__':
     unittest.main()

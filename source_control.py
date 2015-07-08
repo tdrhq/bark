@@ -49,3 +49,7 @@ class SourceControl:
 
     def merge(self, other_rev):
         subprocess.check_call(["git", "merge", "--quiet", "-m", "merge point", other_rev])
+
+    def multi_merge(self, revs):
+        assert self.is_clean()
+        self.checkout(self.rev_parse())
