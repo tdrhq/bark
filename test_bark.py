@@ -120,7 +120,10 @@ class TestBark(unittest.TestCase):
 
 
     def test_stores_base_rev(self):
+        hash = SourceControl().rev_parse()
         self.bark.create_feature("foobar")
+        f = self.bark.feature_db.get_feature_by_name("foobar")
+        self.assertEquals(hash, f.base_rev)
 
 if __name__ == '__main__':
     unittest.main()

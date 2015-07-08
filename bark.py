@@ -23,16 +23,17 @@ class Bark:
         self.source_control = source_control
         self.feature_db = FeatureDb()
 
-    def manage_feature(self, feature):
+    def manage_feature(self, feature, base_rev=None):
         self.source_control.rev_parse(feature)
 
         f = Feature()
         f.name = feature
+        f.base_rev = base_rev
         self.feature_db.add_feature(f)
 
     def create_feature(self, name):
         self.source_control.add_branch(name)
-        self.manage_feature(name)
+        self.manage_feature(name, base_rev=source_control.rev_parse())
 
     def delete_feature(self, feature):
         # verify feature is not referenced from another feature
