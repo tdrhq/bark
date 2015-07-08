@@ -21,3 +21,6 @@ class SourceControl:
 
     def current_branch(self):
         return subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"]).strip()
+
+    def rev_parse(self, rev="HEAD"):
+        return subprocess.check_output(["git", "rev-parse", rev]).strip()

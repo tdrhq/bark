@@ -57,5 +57,15 @@ class TestSourceControl(unittest.TestCase):
             subprocess.call(["git", 'rev-parse', "foobar3"]))
 
 
+    def test_get_hash(self):
+        self.sc.add_branch("blah")
+        hash1 = self.sc.rev_parse("blah")
+        self.add_commit(b="boo")
+        hash2 = self.sc.rev_parse("blah")
+
+        self.assertEquals(40, len(hash1))
+        self.assertNotEquals(hash1, hash2)
+
+
 if __name__ == '__main__':
     unittest.main()
