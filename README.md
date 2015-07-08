@@ -14,18 +14,18 @@ feature branch.
 
 Create a feature branch using the "feature" command:
 
-  bark feature foo-bar
+        bark feature foo-bar
 
 Every feature branch can have multiple dependencies on other feature
 branches.
 
-  bark feature foo-bar2
-  bark add_dep foo-bar2 foo-bar
+        bark feature foo-bar2
+        bark add_dep foo-bar2 foo-bar
 
 at this point you can continue working on both foo-bar and foo-bar2
 branches. When you want to sync everything call:
 
-  bark rebaseall
+        bark rebaseall
 
 In particular this will rebase foo-bar2 onto the update foo-bar.
 
@@ -44,7 +44,7 @@ programmatic things to handle dependencies. For example using arcanist
 a common pattern is to diff against the parent diff, which can be
 automated as:
 
-  arc diff `bark get-root-diff` (TODO: implement get-root-diff)
+        arc diff `bark get-root-diff` (TODO: implement get-root-diff)
 
 You might also want to automatically list all the dependencies in your
 arcanist message. As a first step you can get the list of all
