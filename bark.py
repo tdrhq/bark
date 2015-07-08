@@ -50,13 +50,10 @@ class Bark:
                 return f
 
     def add_dep(self, child, parent):
-        features = self.feature_db._read_features()
+        f = self.feature_db.get_feature_by_name(child)
+        f.deps += [parent]
 
-        for f in features:
-            if f.name == child:
-                f.deps += [parent]
-
-        self.feature_db._write_features(features)
+        self.feature_db.update_feature(f)
 
     def get_deps(self, feature):
         return self._get_feature_for(feature).deps

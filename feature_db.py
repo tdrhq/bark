@@ -61,3 +61,12 @@ class FeatureDb:
         features = self._read_features()
         features = [x for x in features if x.name != feature_name]
         self._write_features(features)
+
+    def get_feature_by_name(self, feature_name):
+        for x in self._read_features():
+            if x.name == feature_name:
+                return x
+
+    def update_feature(self, feature):
+        self.delete_feature_by_name(feature.name)
+        self.add_feature(feature)
