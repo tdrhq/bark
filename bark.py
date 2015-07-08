@@ -87,7 +87,7 @@ class Bark:
         if len(deps) == 0:
             return
 
-        subprocess.check_call(["git", "checkout", feature])
+        self.source_control.checkout(feature)
 
         if len(deps) == 1:
             subprocess.check_call(["git", "rebase", deps[0]])
