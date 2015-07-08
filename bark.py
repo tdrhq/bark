@@ -12,11 +12,9 @@ import subprocess
 import os
 import sys
 
-FEATURE_FILE = '.bark_features'
+from source_control import SourceControl
 
-class SourceControl:
-    def add_branch(self, name):
-        subprocess.check_call(["git", "checkout", "-b", name])
+FEATURE_FILE = '.bark_features'
 
 class BadArgs(BaseException):
     pass
@@ -95,6 +93,11 @@ def cmd_feature(args, options):
     source_control.add_branch(feature_name)
     instance.manage_feature(feature_name)
 
+def delete_feature(rest_args):
+    feature_name = args[1]
+    instance.delete_feature(feature_name)
+    source_control.delete_branch(feature_name)
+
 source_control = SourceControl()
 instance = Bark()
 
@@ -125,6 +128,8 @@ def main(argv):
         instance.add_dep(rest_args[1], rest_args[2])
     elif command =="feature":
         cmd_feature(rest_args, options)
+    elif comment == "delete-feature":
+        delete_feature(rest_args)
     else:
         raise RuntimeError("unsupported")
 
