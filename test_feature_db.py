@@ -33,6 +33,7 @@ class TestFeatureDb(unittest.TestCase):
         f = Feature()
         f.name = "boo"
         f.deps = ["ab", "c"]
+        f.base_rev = "blah"
 
         self.feature_db.add_feature(f)
 
@@ -40,3 +41,4 @@ class TestFeatureDb(unittest.TestCase):
 
         self.assertEquals("boo", ff.name)
         self.assertEquals(["ab", "c"], ff.deps)
+        self.assertEquals("blah", ff.base_rev)
