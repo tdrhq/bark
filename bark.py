@@ -16,6 +16,13 @@ from source_control import SourceControl
 
 FEATURE_FILE = '.bark_features'
 
+
+class Feature:
+    def __init__(self):
+        self.name = None
+        self.deps = []
+        self.base_rev = None
+
 class BadArgs(BaseException):
     pass
 
