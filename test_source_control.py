@@ -107,6 +107,19 @@ class TestSourceControl(unittest.TestCase):
     def test_multi_merge_with_two(self):
         self.test_merge()
         self.sc.checkout("master")
+        self.sc.add_branch("blah3")
+        self.add_commit(f="sdfdsfdsf")
+
+        self.sc.checkout("master")
+
+        rev = self.sc.multi_merge(["blah", "blah2", "blah3"])
+        self.assertNotEquals(None, rev)
+
+        self.sc.checkout(rev)
+
+        self.assertTrue(exists("b"))
+        self.assertTrue(exists("d"))
+        self.assertTrue(exists("f"))
 
 if __name__ == '__main__':
     unittest.main()
