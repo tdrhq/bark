@@ -72,6 +72,7 @@ class TestBark(unittest.TestCase):
             pass  # expected
 
     def _build_tree(self):
+        self.source_control.checkout("master")
         self.add_commit(a="foo")
 
         self.checkout("parent")
