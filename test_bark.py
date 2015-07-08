@@ -107,26 +107,26 @@ class TestBark(unittest.TestCase):
     def test_command_line_manage(self):
         self.checkout("foo")
         bark.main(["./a.out", "manage", "foo"])
-        self.assertEquals(["foo"], Bark(source_control=SourceControl()).list_features())
+        self.assertEquals(["foo"], Bark(source_control=self.source_control).list_features())
 
     # def test_command_line_add_dep(self):
     #     self.checkout("foo")
     #     self.checkout("bar", "foo")
 
-    #     Bark(source_control=SourceControl()).manage_feature("foo")
-    #     Bark(source_control=SourceControl()).manage_feature("bar")
+    #     Bark(source_control=self.source_control).manage_feature("foo")
+    #     Bark(source_control=self.source_control).manage_feature("bar")
 
     #     bark.main(["./a.out", "add_dep", "bar", "foo"])
-    #     self.assertEquals(["foo"], Bark(source_control=SourceControl()).get_deps("bar"))
+    #     self.assertEquals(["foo"], Bark(source_control=self.source_control).get_deps("bar"))
 
     def test_stores_base_rev(self):
-        hash = SourceControl().rev_parse()
+        hash = self.source_control.rev_parse()
         self.bark.create_feature("foobar")
         f = self.bark.feature_db.get_feature_by_name("foobar")
         self.assertEquals(hash, f.base_rev)
 
     def test_create_feature_with_base(self):
-        hash = SourceControl().rev_parse()
+        hash = self.source_control.rev_parse()
         self.add_commit(z="blah")
 
         self.bark.create_feature("foobar", hash)
