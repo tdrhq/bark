@@ -22,13 +22,16 @@ class Feature:
         self.base_rev = None
 
 class FeatureDb:
+    def __init__(self, filename=FEATURE_FILE):
+        self.filename = filename
+
     def _read_features(self):
         ret = []
 
-        if not os.path.exists(FEATURE_FILE):
+        if not os.path.exists(self.filename):
             return []
 
-        with open(FEATURE_FILE, "r") as f:
+        with open(self.filename, "r") as f:
             lines = f.read().strip().splitlines()
 
             for line in lines:
@@ -44,7 +47,7 @@ class FeatureDb:
         return self._read_features()
 
     def _write_features(self, features):
-        with open(FEATURE_FILE, "w") as f:
+        with open(self.filename, "w") as f:
             for feature in features:
                 f.write(feature.name)
 
