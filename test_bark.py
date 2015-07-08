@@ -11,7 +11,7 @@ import subprocess
 import bark
 
 from bark import Bark
-from source_control import SourceControl
+from source_control import SourceControl, BadRev
 
 from subprocess import *
 
@@ -67,7 +67,7 @@ class TestBark(unittest.TestCase):
         try:
             self.bark.manage_feature("doesnotexist")
             self.fail("expected exception")
-        except bark.BadArgs:
+        except BadRev:
             pass  # expected
 
     def _build_tree(self):

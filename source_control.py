@@ -12,6 +12,9 @@ import subprocess
 import os
 import sys
 
+class BadRev(BaseException):
+    pass
+
 class SourceControl:
     def add_branch(self, name):
         subprocess.check_call(["git", "checkout", "-b", name])
@@ -23,4 +26,7 @@ class SourceControl:
         return subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"]).strip()
 
     def rev_parse(self, rev="HEAD"):
-        return subprocess.check_output(["git", "rev-parse", rev]).strip()
+        try:
+            return subprocess.check_output(["git", "rev-parse", rev]).strip()
+        except subprocess.CalledProcessError:
+            raise BadRev()

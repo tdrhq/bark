@@ -11,6 +11,7 @@ import logging
 import subprocess
 import os
 import sys
+from source_control import BadRev
 
 from source_control import SourceControl
 
@@ -19,16 +20,12 @@ FEATURE_FILE = '.bark_features'
 class BadArgs(BaseException):
     pass
 
-def _rev_parse(rev):
-    return subprocess.check_output(['git', 'rev-parse', rev]).strip()
-
 class Bark:
     def __init__(self, source_control):
         self.source_control = source_control
 
     def manage_feature(self, feature):
-        if subprocess.call(['git', 'rev-parse', feature]) != 0:
-            raise BadArgs()
+        self.source_control.rev_parse(feature)
 
         with open(FEATURE_FILE, "a") as f:
             f.write(feature + "\n")
