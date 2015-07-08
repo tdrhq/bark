@@ -25,7 +25,8 @@ class TestBark(unittest.TestCase):
         subprocess.check_output(["git", "init"])
         self.add_commit(a="foobar")
 
-        self.bark = Bark(source_control=SourceControl())
+        self.source_control = SourceControl(master="master")
+        self.bark = Bark(source_control=self.source_control)
 
     def tearDown(self):
         os.chdir(self.olddir)
