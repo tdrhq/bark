@@ -14,6 +14,10 @@ import sys
 
 FEATURE_FILE = '.bark_features'
 
+class SourceControl:
+    def add_branch(self, name):
+        subprocess.check_call(["git", "checkout", "-b", name])
+
 class BadArgs(BaseException):
     pass
 
@@ -88,8 +92,10 @@ def usage():
 
 def cmd_feature(args, options):
     feature_name = args[1]
+    source_control.add_branch(feature_name)
     instance.manage_feature(feature_name)
 
+source_control = SourceControl()
 instance = Bark()
 
 def manage(rest_args, root_options):
