@@ -92,5 +92,16 @@ class TestSourceControl(unittest.TestCase):
 
         self.assertFalse(self.sc.is_clean())
 
+    def test_merge(self):
+        self.sc.add_branch("blah")
+        self.add_commit(b="woo")
+        self.sc.checkout("master")
+        self.add_commit(d="blahhh")
+
+        self.sc.merge("blah")
+        self.assertTrue(exists("b"))
+        self.assertTrue(exists("d"))
+        self.assertTrue(self.sc.is_clean())
+
 if __name__ == '__main__':
     unittest.main()

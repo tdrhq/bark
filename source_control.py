@@ -45,3 +45,7 @@ class SourceControl:
 
     def is_clean(self):
         return subprocess.call(["git", "diff-index", "--quiet", "HEAD"]) == 0
+
+
+    def merge(self, other_rev):
+        subprocess.check_call(["git", "merge", "--quiet", "-m", "merge point", other_rev])
