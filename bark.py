@@ -48,10 +48,10 @@ class Bark:
         self._write_features(features)
 
     def list_features(self):
-        return list(self._read_features().iterkeys())
+        return [f.name for f in self._read_features()]
 
     def _read_features(self):
-        ret = {}
+        ret = []
         with open(FEATURE_FILE, "r") as f:
             lines = f.read().strip().splitlines()
 
@@ -60,13 +60,13 @@ class Bark:
                 f = Feature()
                 f.name = words[0]
                 f.deps = words[1:]
-                ret[f.name] = f
+                ret.append(f)
 
         return ret
 
     def _write_features(self, features):
         with open(FEATURE_FILE, "w") as f:
-            for feature in features.itervalues():
+            for feature in features:
                 f.write(feature.name)
 
                 for d in feature.deps:
@@ -75,15 +75,23 @@ class Bark:
 
                 f.write("\n")
 
+    def _get_feature_for(self, name):
+        features = self._read_features()
+        for f in features:
+            if f.name == name:
+                return f
+
     def add_dep(self, child, parent):
         features = self._read_features()
 
-        features[child].deps += [parent]
+        for f in features:
+            if f.name == child:
+                f.deps += [parent]
 
         self._write_features(features)
 
     def get_deps(self, feature):
-        return self._read_features()[feature].deps
+        return self._get_feature_for(feature).deps
 
     def rebase_all(self, feature):
         deps = self.get_deps(feature)
