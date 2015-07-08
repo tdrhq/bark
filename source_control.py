@@ -16,6 +16,9 @@ class BadRev(BaseException):
     pass
 
 class SourceControl:
+    def __init__(self, master="origin/master"):
+        self.master = master
+
     def add_branch(self, name):
         subprocess.check_call(["git", "checkout", "-b", name])
 
@@ -36,3 +39,6 @@ class SourceControl:
             return subprocess.check_output(["git", "rev-parse", rev]).strip()
         except subprocess.CalledProcessError:
             raise BadRev()
+
+    def get_master_merge_point(self, rev):
+        pass
