@@ -124,5 +124,14 @@ class TestBark(unittest.TestCase):
         f = self.bark.feature_db.get_feature_by_name("foobar")
         self.assertEquals(hash, f.base_rev)
 
+    def test_create_feature_with_base(self):
+        hash = SourceControl().rev_parse()
+        self.add_commit(z="blah")
+
+        self.bark.create_feature("foobar", hash)
+        f = self.bark.feature_db.get_feature_by_name("foobar")
+        self.assertEquals(hash, f.base_rev)
+
+
 if __name__ == '__main__':
     unittest.main()

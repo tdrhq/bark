@@ -19,8 +19,11 @@ class SourceControl:
     def __init__(self, master="origin/master"):
         self.master = master
 
-    def add_branch(self, name):
-        subprocess.check_call(["git", "checkout", "-b", name])
+    def add_branch(self, name, parent=None):
+        cmd = ["git", "checkout", "-b", name]
+        if parent:
+            cmd.append(parent)
+        subprocess.check_call(cmd)
 
     def checkout(self, name):
         subprocess.check_call(["git", "checkout", name])

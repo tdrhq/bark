@@ -31,8 +31,8 @@ class Bark:
         f.base_rev = base_rev
         self.feature_db.add_feature(f)
 
-    def create_feature(self, name):
-        self.source_control.add_branch(name)
+    def create_feature(self, name, parent=None):
+        self.source_control.add_branch(name, parent)
         self.manage_feature(name, base_rev=source_control.rev_parse())
 
     def delete_feature(self, feature):
