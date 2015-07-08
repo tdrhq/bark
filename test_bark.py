@@ -116,8 +116,12 @@ class TestBark(unittest.TestCase):
 
         Bark(source_control=self.source_control).manage_feature("foo")
         Bark(source_control=self.source_control).manage_feature("bar")
-
-        bark.main(["./a.out", "add_dep", "bar", "foo"])
+        old_bark = bark.instance
+        try:
+            bark.instance = self.bark
+            bark.main(["./a.out", "add_dep", "bar", "foo"])
+        finally:
+            bark.instance = old_bark
         self.assertEquals(["foo"], Bark(source_control=self.source_control).get_deps("bar"))
 
     def test_stores_base_rev(self):
@@ -133,6 +137,28 @@ class TestBark(unittest.TestCase):
         self.bark.create_feature("foobar", hash)
         f = self.bark.feature_db.get_feature_by_name("foobar")
         self.assertEquals(hash, f.base_rev)
+
+    def test_doesnt_allow_me_to_add_dep_when_base_commit_is_differentt(self):
+        self.bark.create_feature("foo")
+        self.add_commit(y="bsdfdsf")
+
+        self.source_control.checkout("master")
+        self.add_commit(z="boo")
+
+        self.bark.create_feature("bar")
+        self.add_commit(zz="dfsdfds")
+
+        self.source_control.checkout("master")
+        self.bark.create_feature("booboo")
+        self.add_commit(dfd="dfsfs")
+
+        try:
+            self.bark.add_dep("booboo", "bar")
+            self.fail("expected exception")
+        except SystemExit:
+            pass  # expected
+
+
 
 
 if __name__ == '__main__':

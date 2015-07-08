@@ -35,7 +35,16 @@ class Bark:
         self.source_control.add_branch(name, parent)
         self.manage_feature(name, base_rev=source_control.rev_parse())
 
+    def _validate_mergeable(self):
+        features = self.list_features()
+        merge_bases = [self.source_control.get_master_merge_point(f) for f in features]
+        print("stuff %s"  % merge_bases)
+        if len(set(merge_bases)) > 1:
+            print('All branches need to have the same merge point with maser, run "bark rebaseall"')
+            exit(1)
+
     def add_dep(self, name, parent):
+        self._validate_mergeable()
         self._add_dep(name, parent)
         feature = self.feature_db.get_feature_by_name(name)
         merge_point = self.source_control.multi_merge(feature.deps)
