@@ -158,8 +158,5 @@ class TestBark(unittest.TestCase):
         except SystemExit:
             pass  # expected
 
-
-
-
 if __name__ == '__main__':
     unittest.main()
