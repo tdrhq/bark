@@ -118,7 +118,6 @@ class TestBark(unittest.TestCase):
         bark.main(["./a.out", "add_dep", "bar", "foo"])
         self.assertEquals(["foo"], Bark(source_control=SourceControl()).get_deps("bar"))
 
-
     def test_stores_base_rev(self):
         hash = SourceControl().rev_parse()
         self.bark.create_feature("foobar")
