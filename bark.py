@@ -23,6 +23,9 @@ def _rev_parse(rev):
     return subprocess.check_output(['git', 'rev-parse', rev]).strip()
 
 class Bark:
+    def __init__(self, source_control):
+        self.source_control = source_control
+
     def manage_feature(self, feature):
         if subprocess.call(['git', 'rev-parse', feature]) != 0:
             raise BadArgs()
@@ -110,7 +113,7 @@ def delete_feature(args):
     source_control.delete_branch(feature_name)
 
 source_control = SourceControl()
-instance = Bark()
+instance = Bark(source_control=source_control)
 
 def manage(rest_args, root_options):
     branch = rest_args

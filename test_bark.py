@@ -11,6 +11,8 @@ import subprocess
 import bark
 
 from bark import Bark
+from source_control import SourceControl
+
 from subprocess import *
 
 from os.path import exists
@@ -23,7 +25,7 @@ class TestBark(unittest.TestCase):
         subprocess.check_output(["git", "init"])
         self.add_commit(a="foobar")
 
-        self.bark = Bark()
+        self.bark = Bark(source_control=SourceControl())
 
     def tearDown(self):
         os.chdir(self.olddir)
@@ -104,17 +106,17 @@ class TestBark(unittest.TestCase):
     def test_command_line_manage(self):
         self.checkout("foo")
         bark.main(["./a.out", "manage", "foo"])
-        self.assertEquals(["foo"], Bark().list_features())
+        self.assertEquals(["foo"], Bark(source_control=SourceControl()).list_features())
 
     def test_command_line_add_dep(self):
         self.checkout("foo")
         self.checkout("bar", "foo")
 
-        Bark().manage_feature("foo")
-        Bark().manage_feature("bar")
+        Bark(source_control=SourceControl()).manage_feature("foo")
+        Bark(source_control=SourceControl()).manage_feature("bar")
 
         bark.main(["./a.out", "add_dep", "bar", "foo"])
-        self.assertEquals(["foo"], Bark().get_deps("bar"))
+        self.assertEquals(["foo"], Bark(source_control=SourceControl()).get_deps("bar"))
 
 if __name__ == '__main__':
     unittest.main()
