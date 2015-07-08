@@ -118,5 +118,9 @@ class TestBark(unittest.TestCase):
         bark.main(["./a.out", "add_dep", "bar", "foo"])
         self.assertEquals(["foo"], Bark(source_control=SourceControl()).get_deps("bar"))
 
+
+    def test_stores_base_rev(self):
+        self.bark.create_feature("foobar")
+
 if __name__ == '__main__':
     unittest.main()

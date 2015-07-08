@@ -30,6 +30,10 @@ class Bark:
         f.name = feature
         self.feature_db.add_feature(f)
 
+    def create_feature(self, name):
+        self.source_control.add_branch(name)
+        self.manage_feature(name)
+
     def delete_feature(self, feature):
         # verify feature is not referenced from another feature
         features = self.feature_db.list_features()
@@ -83,8 +87,7 @@ def usage():
 
 def cmd_feature(args, options):
     feature_name = args[1]
-    source_control.add_branch(feature_name)
-    instance.manage_feature(feature_name)
+    bark.create_feature(feature_name)
 
 def delete_feature(args):
     feature_name = args[1]
