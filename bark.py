@@ -36,7 +36,7 @@ class Bark:
         self.manage_feature(name, base_rev=source_control.rev_parse())
 
     def add_dep(self, name, parent):
-        _add_dep(name, parent)
+        self._add_dep(name, parent)
         feature = self.feature_db.get_feature_by_name(name)
         merge_point = self.source_control.multi_merge(feature.deps)
 

@@ -110,15 +110,15 @@ class TestBark(unittest.TestCase):
         bark.main(["./a.out", "manage", "foo"])
         self.assertEquals(["foo"], Bark(source_control=self.source_control).list_features())
 
-    # def test_command_line_add_dep(self):
-    #     self.checkout("foo")
-    #     self.checkout("bar", "foo")
+    def test_command_line_add_dep(self):
+        self.checkout("foo")
+        self.checkout("bar")
 
-    #     Bark(source_control=self.source_control).manage_feature("foo")
-    #     Bark(source_control=self.source_control).manage_feature("bar")
+        Bark(source_control=self.source_control).manage_feature("foo")
+        Bark(source_control=self.source_control).manage_feature("bar")
 
-    #     bark.main(["./a.out", "add_dep", "bar", "foo"])
-    #     self.assertEquals(["foo"], Bark(source_control=self.source_control).get_deps("bar"))
+        bark.main(["./a.out", "add_dep", "bar", "foo"])
+        self.assertEquals(["foo"], Bark(source_control=self.source_control).get_deps("bar"))
 
     def test_stores_base_rev(self):
         hash = self.source_control.rev_parse()

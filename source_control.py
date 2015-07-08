@@ -31,8 +31,11 @@ class SourceControl:
     def delete_branch(self, name):
         subprocess.check_call(["git", "branch", "-d", name])
 
-    def rebase(self, onto):
-        subprocess.check_call(["git", "rebase", onto])
+    def rebase(self, onto, base=None):
+        if not base:
+            subprocess.check_call(["git", "rebase", onto])
+        else:
+            subprocess.check_call(["git", "rebase", "--onto", onto, base])
 
     def current_branch(self):
         return subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"]).strip()
