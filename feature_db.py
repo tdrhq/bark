@@ -40,6 +40,9 @@ class FeatureDb:
 
         return ret
 
+    def list_features(self):
+        return self._read_features()
+
     def _write_features(self, features):
         with open(FEATURE_FILE, "w") as f:
             for feature in features:

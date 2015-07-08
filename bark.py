@@ -32,7 +32,7 @@ class Bark:
 
     def delete_feature(self, feature):
         # verify feature is not referenced from another feature
-        features = self._read_features()
+        features = self.feature_db.list_features()
         for name, deps in features.iteritems():
             for f in deps:
                 if f == feature:
@@ -41,10 +41,10 @@ class Bark:
         self.delete_feature_by_name(feature)
 
     def list_features(self):
-        return [f.name for f in self.feature_db._read_features()]
+        return [f.name for f in self.feature_db.list_features()]
 
     def _get_feature_for(self, name):
-        features = self.feature_db._read_features()
+        features = self.feature_db.list_features()
         for f in features:
             if f.name == name:
                 return f
