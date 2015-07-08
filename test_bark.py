@@ -85,8 +85,8 @@ class TestBark(unittest.TestCase):
         self.bark.manage_feature("child")
         self.bark.manage_feature("otherchild")
 
-        self.bark.add_dep("otherchild", "parent")
-        self.bark.add_dep("child", "parent")
+        self.bark._add_dep("otherchild", "parent")
+        self.bark._add_dep("child", "parent")
 
     def test_rebase(self):
         self._build_tree()
@@ -108,15 +108,15 @@ class TestBark(unittest.TestCase):
         bark.main(["./a.out", "manage", "foo"])
         self.assertEquals(["foo"], Bark(source_control=SourceControl()).list_features())
 
-    def test_command_line_add_dep(self):
-        self.checkout("foo")
-        self.checkout("bar", "foo")
+    # def test_command_line_add_dep(self):
+    #     self.checkout("foo")
+    #     self.checkout("bar", "foo")
 
-        Bark(source_control=SourceControl()).manage_feature("foo")
-        Bark(source_control=SourceControl()).manage_feature("bar")
+    #     Bark(source_control=SourceControl()).manage_feature("foo")
+    #     Bark(source_control=SourceControl()).manage_feature("bar")
 
-        bark.main(["./a.out", "add_dep", "bar", "foo"])
-        self.assertEquals(["foo"], Bark(source_control=SourceControl()).get_deps("bar"))
+    #     bark.main(["./a.out", "add_dep", "bar", "foo"])
+    #     self.assertEquals(["foo"], Bark(source_control=SourceControl()).get_deps("bar"))
 
     def test_stores_base_rev(self):
         hash = SourceControl().rev_parse()

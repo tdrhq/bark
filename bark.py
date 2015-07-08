@@ -54,7 +54,7 @@ class Bark:
             if f.name == name:
                 return f
 
-    def add_dep(self, child, parent):
+    def _add_dep(self, child, parent):
         f = self.feature_db.get_feature_by_name(child)
         f.deps += [parent]
 
