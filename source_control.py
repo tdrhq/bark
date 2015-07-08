@@ -41,4 +41,4 @@ class SourceControl:
             raise BadRev()
 
     def get_master_merge_point(self, rev):
-        pass
+        return subprocess.check_output(["git", "merge-base", rev, self.master]).strip()

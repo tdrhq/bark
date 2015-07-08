@@ -72,5 +72,18 @@ class TestSourceControl(unittest.TestCase):
         self.sc.checkout("blah")
         self.assertEquals("blah", self.sc.current_branch())
 
+    def test_master_merge_point(self):
+        self.sc.add_branch("blah")
+        self.add_commit(b="boo")
+        merge_point = self.sc.rev_parse()
+
+        self.sc.add_branch("blah2")
+        self.add_commit(d="dfsfdsf")
+        self.sc.checkout("blah")
+        self.add_commit(c="gah")
+
+        sc = SourceControl(master="blah")
+        self.assertEquals(merge_point, sc.get_master_merge_point("blah2"))
+
 if __name__ == '__main__':
     unittest.main()
