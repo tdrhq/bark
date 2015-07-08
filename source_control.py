@@ -20,4 +20,4 @@ class SourceControl:
         subprocess.check_call(["git", "branch", "-d", name])
 
     def current_branch(self):
-        subprocess.check_call
+        return subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"]).strip()

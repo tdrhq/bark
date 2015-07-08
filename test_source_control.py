@@ -25,10 +25,25 @@ class TestSourceControl(unittest.TestCase):
 
         self.sc = SourceControl()
 
+    def add_commit(self, **files):
+        for k, v in files.iteritems():
+            f = open(str(k), "w")
+            f.write(v)
+            f.close()
+
+            subprocess.check_output(["git", "add", k])
+
+        subprocess.check_output(["git", "commit", "-a", "-m", "stuff"])
+        return subprocess.check_output(["git", 'rev-parse', 'HEAD'])
+
     def tearDown(self):
         os.chdir(self.olddir)
         shutil.rmtree(self.tmpdir)
 
     def test_add_branch(self):
-        sc.add_branch("foobar")
-        self.assertEquals("foobar", sc.current_branch())
+        self.sc.add_branch("foobar")
+        self.assertEquals("foobar", self.sc.current_branch())
+
+
+if __name__ == '__main__':
+    unittest.main()
