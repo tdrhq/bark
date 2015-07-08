@@ -34,11 +34,11 @@ class FeatureDb:
                 "deps": f.deps,
                 "base_rev": f.base_rev,
             })
-        return ret
+        return {"features": ret}
 
     def _from_json_array(self, array):
         ret = []
-        for f in array:
+        for f in array["features"]:
             ff = Feature()
             ff.name = f["name"]
             ff.deps = f["deps"]
