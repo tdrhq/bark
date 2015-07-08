@@ -13,15 +13,10 @@ import sys
 from source_control import BadRev
 
 from source_control import SourceControl
+from feature_db import FeatureDb, Feature
 
 FEATURE_FILE = '.bark_features'
 
-
-class Feature:
-    def __init__(self):
-        self.name = None
-        self.deps = []
-        self.base_rev = None
 
 class BadArgs(BaseException):
     pass
@@ -29,6 +24,7 @@ class BadArgs(BaseException):
 class Bark:
     def __init__(self, source_control):
         self.source_control = source_control
+        self.feature_db = FeatureDb()
 
     def manage_feature(self, feature):
         self.source_control.rev_parse(feature)
