@@ -35,6 +35,17 @@ class Bark:
         self.source_control.add_branch(name, parent)
         self.manage_feature(name, base_rev=source_control.rev_parse())
 
+    def add_dep(self, name, parent):
+        _add_dep(name, parent)
+        feature = self.feature_db.get_feature_by_name(name)
+        merge_point = self.source_control.multi_merge(feature.deps)
+
+        self.source_control.checkout(feature.name)
+        self.source_control.rebase(merge_point, feature.base_rev)
+
+        feature.base_rev = merge_point
+        self.feature_db.update_feature(feature)
+
     def delete_feature(self, feature):
         # verify feature is not referenced from another feature
         features = self.feature_db.list_features()
