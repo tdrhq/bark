@@ -112,16 +112,14 @@ def main(argv):
 
     if command == "manage":
         manage(rest_args, options)
-
-    if command == "rebaseall":
+    elif command == "rebaseall":
         instance.rebase_all(rest_args[1])
-
-    if command == "add_dep":
+    elif command == "add_dep":
         instance.add_dep(rest_args[1], rest_args[2])
-
-
-    if command =="feature":
+    elif command =="feature":
         cmd_feature(rest_args, options)
+    else:
+        raise RuntimeError("unsupported")
 
 if __name__ == '__main__':
     main(sys.argv)
