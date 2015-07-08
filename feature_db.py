@@ -11,6 +11,10 @@ import logging
 import os
 import sys
 
+
+FEATURE_FILE = '.bark_features'
+
+
 class Feature:
     def __init__(self):
         self.name = None
@@ -18,4 +22,37 @@ class Feature:
         self.base_rev = None
 
 class FeatureDb:
-    pass
+    def _read_features(self):
+        ret = []
+
+        if not os.path.exists(FEATURE_FILE):
+            return []
+
+        with open(FEATURE_FILE, "r") as f:
+            lines = f.read().strip().splitlines()
+
+            for line in lines:
+                words = line.split()
+                f = Feature()
+                f.name = words[0]
+                f.deps = words[1:]
+                ret.append(f)
+
+        return ret
+
+    def _write_features(self, features):
+        with open(FEATURE_FILE, "w") as f:
+            for feature in features:
+                f.write(feature.name)
+
+                for d in feature.deps:
+                    f.write(" ")
+                    f.write(d)
+
+                f.write("\n")
+
+
+    def add_feature(self, feature):
+        features = self._read_features()
+        features.append(feature)
+        self._write_features(features)
