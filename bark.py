@@ -8,7 +8,6 @@ from __future__ import unicode_literals
 import getopt
 
 import logging
-import subprocess
 import os
 import sys
 from source_control import BadRev
