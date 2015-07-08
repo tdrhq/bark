@@ -90,7 +90,7 @@ class Bark:
         self.source_control.checkout(feature)
 
         if len(deps) == 1:
-            subprocess.check_call(["git", "rebase", deps[0]])
+            self.source_control.rebase(deps[0])
             return
 
         raise RuntimeError("unsupported, too many deps" + str(deps))
