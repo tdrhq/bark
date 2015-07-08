@@ -19,6 +19,9 @@ class SourceControl:
     def add_branch(self, name):
         subprocess.check_call(["git", "checkout", "-b", name])
 
+    def checkout(self, name):
+        subprocess.check_call(["git", "checkout", name])
+
     def delete_branch(self, name):
         subprocess.check_call(["git", "branch", "-d", name])
 

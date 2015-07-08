@@ -66,6 +66,11 @@ class TestSourceControl(unittest.TestCase):
         self.assertEquals(40, len(hash1))
         self.assertNotEquals(hash1, hash2)
 
+    def test_checkout(self):
+        self.sc.add_branch("blah")
+        self.sc.add_branch("blah2")
+        self.sc.checkout("blah")
+        self.assertEquals("blah", self.sc.current_branch())
 
 if __name__ == '__main__':
     unittest.main()
