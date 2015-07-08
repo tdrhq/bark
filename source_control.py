@@ -18,3 +18,6 @@ class SourceControl:
 
     def delete_branch(self, name):
         subprocess.check_call(["git", "branch", "-d", name])
+
+    def current_branch(self):
+        subprocess.check_call
