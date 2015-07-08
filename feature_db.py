@@ -54,9 +54,7 @@ class FeatureDb:
             return []
 
         with open(self.filename, "r") as f:
-            s = f.read()
-            print("json is " + s)
-            return self._from_json_array(json.loads(s))
+            return self._from_json_array(json.load(f))
 
     def list_features(self):
         return self._read_features()
