@@ -56,3 +56,8 @@ class FeatureDb:
         features = self._read_features()
         features.append(feature)
         self._write_features(features)
+
+    def delete_feature_by_name(self, feature_name):
+        features = self._read_features()
+        features = [x for x in features if x.name != feature_name]
+        self._write_features(features)

@@ -38,8 +38,7 @@ class Bark:
                 if f == feature:
                     raise RuntimeError("Dep in use")
 
-        del features[feature]
-        self._write_features(features)
+        self.delete_feature_by_name(feature)
 
     def list_features(self):
         return [f.name for f in self.feature_db._read_features()]
