@@ -200,6 +200,5 @@ class TestBark(unittest.TestCase):
         self.bark.delete_feature("foo")
         self.assertEquals(["bar"], self.bark.list_features())
 
-
 if __name__ == '__main__':
     unittest.main()

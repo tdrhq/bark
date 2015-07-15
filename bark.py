@@ -66,6 +66,7 @@ class Bark:
                     raise RuntimeError("Dep in use")
 
         self.feature_db.delete_feature_by_name(feature_name)
+        source_control.delete_branch(feature_name)
 
     def list_features(self):
         return [f.name for f in self.feature_db.list_features()]
@@ -116,7 +117,6 @@ def cmd_feature(args, options):
 def delete_feature(args):
     feature_name = args[1]
     instance.delete_feature(feature_name)
-    source_control.delete_branch(feature_name)
 
 source_control = SourceControl()
 instance = Bark(source_control=source_control)
