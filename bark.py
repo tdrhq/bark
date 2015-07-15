@@ -108,7 +108,7 @@ def usage():
 
 def cmd_feature(args, options):
     feature_name = args[1]
-    bark.create_feature(feature_name)
+    instance.create_feature(feature_name)
 
 def delete_feature(args):
     feature_name = args[1]
