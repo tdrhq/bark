@@ -84,6 +84,7 @@ class Bark:
         return self._get_feature_for(feature).deps
 
     def rebase_all(self, feature):
+        f = self.feature_db.get_feature_by_name(feature)
         deps = self.get_deps(feature)
 
         # make sure all children are up-to-date before doing anything
@@ -91,16 +92,16 @@ class Bark:
             print("first updating " + d)
             self.rebase_all(d)
 
-        if len(deps) == 0:
-            return
+        merge_point = self.source_control.rev_parse(self.source_control.master)
+
+        if len(deps) > 0:
+            merge_point = self.source_control.multi_merge(deps)
+
 
         self.source_control.checkout(feature)
-
-        if len(deps) == 1:
-            self.source_control.rebase(deps[0])
-            return
-
-        raise RuntimeError("unsupported, too many deps" + str(deps))
+        self.source_control.rebase(merge_point, base=f.base_rev)
+        f.base_rev = merge_point
+        self.feature_db.update_feature(f)
 
 def usage():
     print("unimplemented")

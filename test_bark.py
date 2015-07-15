@@ -44,7 +44,7 @@ class TestBark(unittest.TestCase):
             subprocess.check_output(["git", "add", k])
 
         subprocess.check_output(["git", "commit", "-a", "-m", "stuff"])
-        return subprocess.check_output(["git", 'rev-parse', 'HEAD'])
+        return subprocess.check_output(["git", 'rev-parse', 'HEAD']).strip()
 
     def test_add_commit(self):
         h1 = self.add_commit(a="foo")
@@ -157,6 +157,20 @@ class TestBark(unittest.TestCase):
             self.fail("expected exception")
         except SystemExit:
             pass  # expected
+
+    def test_rebase_all_rebases_single_branch_onto_master(self):
+        self.bark.create_feature("foo")
+        self.add_commit(d="foobar")
+        self.source_control.checkout("master")
+        new_master = self.add_commit(b="blahblah")
+
+        self.source_control.checkout("foo")
+        self.bark.rebase_all("foo")
+
+        self.source_control.checkout("foo")
+        self.assertTrue(exists("b"))
+
+        self.assertEquals(new_master, self.bark.feature_db.get_feature_by_name("foo").base_rev)
 
 if __name__ == '__main__':
     unittest.main()
