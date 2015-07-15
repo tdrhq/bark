@@ -186,5 +186,12 @@ class TestBark(unittest.TestCase):
         self.bark.delete_feature("foo")
         self.assertEquals([], self.bark.list_features())
 
+    def test_delete_feature_when_more_features_exist(self):
+        self.bark.create_feature("bar")
+        self.bark.create_feature("foo")
+        self.source_control.checkout("master")
+        self.bark.delete_feature("foo")
+        self.assertEquals(["bar"], self.bark.list_features())
+
 if __name__ == '__main__':
     unittest.main()
