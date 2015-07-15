@@ -116,7 +116,8 @@ def usage():
 
 def cmd_feature(args, options):
     feature_name = args[1]
-    instance.create_feature(feature_name)
+    dep = (args[2] if len(args) == 3 else None)
+    instance.create_feature(feature_name, parent=dep)
 
 def delete_feature(args):
     feature_name = args[1]
