@@ -32,6 +32,7 @@ class SourceControl:
         subprocess.check_call(["git", "checkout", name])
 
     def delete_branch(self, name):
+        print("Deleting branch %s which was at rev: %s" % (name, self.rev_parse(name)))
         subprocess.check_call(["git", "branch", "-D", name])
 
     def rebase(self, onto, base=None):
