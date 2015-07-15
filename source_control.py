@@ -17,13 +17,16 @@ class BadRev(BaseException):
 
 class SourceControl:
     def __init__(self, master="origin/master"):
-        self.master = master
+        self._master = master
 
     def add_branch(self, name, parent=None):
         cmd = ["git", "checkout", "-b", name]
         if parent:
             cmd.append(parent)
         subprocess.check_call(cmd)
+
+    def master(self):
+        return self._master
 
     def checkout(self, name):
         subprocess.check_call(["git", "checkout", name])
@@ -47,7 +50,7 @@ class SourceControl:
             raise BadRev()
 
     def get_master_merge_point(self, rev):
-        return subprocess.check_output(["git", "merge-base", rev, self.master]).strip()
+        return subprocess.check_output(["git", "merge-base", rev, self._master]).strip()
 
     def is_clean(self):
         return subprocess.call(["git", "diff-index", "--quiet", "HEAD"]) == 0

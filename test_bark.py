@@ -172,5 +172,13 @@ class TestBark(unittest.TestCase):
 
         self.assertEquals(new_master, self.bark.feature_db.get_feature_by_name("foo").base_rev)
 
+    def test_create_feature_with_feature_should_create_over_master(self):
+        master = self.add_commit(c="fdfd")
+        self.bark.create_feature("foo")
+        self.add_commit(d="dfdfds")
+        self.bark.create_feature("bar")
+
+        self.assertEquals(master, self.source_control.rev_parse())
+
 if __name__ == '__main__':
     unittest.main()

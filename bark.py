@@ -32,6 +32,8 @@ class Bark:
         self.feature_db.add_feature(f)
 
     def create_feature(self, name, parent=None):
+        if not parent:
+            parent = self.source_control.master()
         self.source_control.add_branch(name, parent)
         self.manage_feature(name, base_rev=source_control.rev_parse())
 
@@ -92,7 +94,7 @@ class Bark:
             print("first updating " + d)
             self.rebase_all(d)
 
-        merge_point = self.source_control.rev_parse(self.source_control.master)
+        merge_point = self.source_control.rev_parse(self.source_control.master())
 
         if len(deps) > 0:
             merge_point = self.source_control.multi_merge(deps)
