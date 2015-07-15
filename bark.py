@@ -57,7 +57,7 @@ class Bark:
         feature.base_rev = merge_point
         self.feature_db.update_feature(feature)
 
-    def delete_feature(self, feature):
+    def delete_feature(self, feature_name):
         # verify feature is not referenced from another feature
         features = self.feature_db.list_features()
         for feature in features:
@@ -65,7 +65,7 @@ class Bark:
                 if f == feature.name:
                     raise RuntimeError("Dep in use")
 
-        self.feature_db.delete_feature_by_name(feature.name)
+        self.feature_db.delete_feature_by_name(feature_name)
 
     def list_features(self):
         return [f.name for f in self.feature_db.list_features()]
