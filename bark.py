@@ -60,12 +60,12 @@ class Bark:
     def delete_feature(self, feature):
         # verify feature is not referenced from another feature
         features = self.feature_db.list_features()
-        for name, deps in features.iteritems():
-            for f in deps:
-                if f == feature:
+        for feature in features:
+            for f in feature.deps:
+                if f == feature.name:
                     raise RuntimeError("Dep in use")
 
-        self.delete_feature_by_name(feature)
+        self.feature_db.delete_feature_by_name(feature.name)
 
     def list_features(self):
         return [f.name for f in self.feature_db.list_features()]

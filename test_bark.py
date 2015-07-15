@@ -180,5 +180,11 @@ class TestBark(unittest.TestCase):
 
         self.assertEquals(master, self.source_control.rev_parse())
 
+    def test_delete_feature(self):
+        self.bark.create_feature("foo")
+        self.source_control.checkout("master")
+        self.bark.delete_feature("foo")
+        self.assertEquals([], self.bark.list_features())
+
 if __name__ == '__main__':
     unittest.main()
