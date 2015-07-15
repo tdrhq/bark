@@ -65,6 +65,10 @@ class Bark:
                 if f == feature.name:
                     raise RuntimeError("Dep in use")
 
+        # move to master if we're on the deleted branch
+        if self.source_control.current_branch() == feature_name:
+            self.source_control.checkout(self.source_control.master())
+
         self.feature_db.delete_feature_by_name(feature_name)
         source_control.delete_branch(feature_name)
 

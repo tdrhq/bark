@@ -200,5 +200,14 @@ class TestBark(unittest.TestCase):
         self.bark.delete_feature("foo")
         self.assertEquals(["bar"], self.bark.list_features())
 
+    def test_delete_current_feature(self):
+        master = self.add_commit(b="cdf")
+        self.bark.create_feature("foo")
+        foo = self.add_commit(c="dfsdf")
+
+        self.bark.delete_feature("foo")
+        self.assertEquals([], self.bark.list_features())
+        self.assertEquals(master, self.source_control.rev_parse())
+
 if __name__ == '__main__':
     unittest.main()

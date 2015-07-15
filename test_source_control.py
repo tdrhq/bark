@@ -56,6 +56,11 @@ class TestSourceControl(unittest.TestCase):
             0,
             subprocess.call(["git", 'rev-parse', "foobar3"]))
 
+    def test_delete_unmerged_branch(self):
+        self.sc.add_branch("foobar")
+        self.add_commit(a="sdfdf")
+        self.sc.checkout("master")
+        self.sc.delete_branch("foobar")
 
     def test_get_hash(self):
         self.sc.add_branch("blah")
