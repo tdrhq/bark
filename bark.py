@@ -155,6 +155,8 @@ def main(argv):
         cmd_feature(rest_args, options)
     elif command == "delete-feature":
         delete_feature(rest_args)
+    elif command == "complete":
+        instance.complete_feature(argv[1])
     else:
         raise RuntimeError("unsupported")
 

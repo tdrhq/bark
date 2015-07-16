@@ -209,5 +209,16 @@ class TestBark(unittest.TestCase):
         self.assertEquals([], self.bark.list_features())
         self.assertEquals(master, self.source_control.rev_parse())
 
+    # def test_complete_linear_feature(self):
+    #     master = self.add_commit(bb="boo")
+    #     self.bark.create_feature("foo")
+    #     self.add_commit(dd="blah")
+    #     self.bark.create_feature("bar")
+    #     self.add_commit(ee="sdfdsf")
+    #     self.source_control.checkout("master")
+    #     self.bark.complete_feature("blah")
+
+    #     self.assertEquals([], self.bark.feature_db.get_feature_by_name("blah").deps)
+
 if __name__ == '__main__':
     unittest.main()
