@@ -226,7 +226,7 @@ class TestBark(unittest.TestCase):
         try:
             self.source_control.rev_parse("foo")
             self.fail("expected foo to not exist")
-        except Exception:
+        except BadRev:
             pass  # expected
 
     # def test_complete_current_feature(self):

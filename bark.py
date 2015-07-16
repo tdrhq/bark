@@ -137,6 +137,7 @@ class Bark:
             self.feature_db.update_feature(f)
 
         self.feature_db.delete_feature_by_name(feature_name)
+        self.source_control.delete_branch(feature_name)
 
     def _get_merge_point(self, deps):
         merge_point = self.source_control.rev_parse(self.source_control.master())
