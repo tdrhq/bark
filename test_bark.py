@@ -220,5 +220,9 @@ class TestBark(unittest.TestCase):
 
         self.assertEquals([], self.bark.feature_db.get_feature_by_name("bar").deps)
 
+        self.source_control.checkout("bar")
+        self.assertTrue(os.path.exists("ee"))
+        self.assertFalse(os.path.exists("dd"))
+
 if __name__ == '__main__':
     unittest.main()
