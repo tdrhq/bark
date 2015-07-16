@@ -5,6 +5,12 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import sys
+import os
+sys.path.append(os.path.dirname(__file__) + "/toposort-1.4")
+
+import toposort
+
 import getopt
 
 import logging
