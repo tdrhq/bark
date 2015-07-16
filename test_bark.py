@@ -223,6 +223,19 @@ class TestBark(unittest.TestCase):
         self.source_control.checkout("bar")
         self.assertTrue(os.path.exists("ee"))
         self.assertFalse(os.path.exists("dd"))
+        try:
+            self.source_control.rev_parse("foo")
+            self.fail("expected foo to not exist")
+        except Exception:
+            pass  # expected
+
+    # def test_complete_current_feature(self):
+    #     master = self.add_commit(bb="boo")
+    #     self.bark.create_feature("foo")
+    #     self.add_commit(cc="ddd")
+
+    #     self.bark.complete_feature("foo")
+    #     self.assertFalse(os.path.exists("cc"))
 
 if __name__ == '__main__':
     unittest.main()
