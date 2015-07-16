@@ -14,15 +14,30 @@ import json
 
 sys.path.append(os.path.dirname(__file__) + "/toposort-1.4")
 
+from toposort import toposort_flatten
 
 FEATURE_FILE = '.bark_features'
-
 
 class Feature:
     def __init__(self):
         self.name = None
         self.deps = []
         self.base_rev = None
+
+def _sort_features(features):
+    graph = {}
+    for f in features:
+        graph[f.name] = set(f.deps)
+
+    order = toposort_flatten(graph, sort=True)
+    ret = []
+
+    for name in order:
+        for f in features:
+            if f.name == name:
+                ret.append(f)
+
+    return ret
 
 class FeatureDb:
     def __init__(self, filename=FEATURE_FILE):
@@ -60,7 +75,7 @@ class FeatureDb:
             return self._from_json_array(json.load(f))
 
     def list_features(self):
-        return self._read_features()
+        return _sort_features(self._read_features())
 
     def _write_features(self, features):
         with open(self.filename, "w") as f:
