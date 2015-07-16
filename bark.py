@@ -141,6 +141,9 @@ class Bark:
 
         return merge_point
 
+    def print_features(self):
+        for f in self.feature_db.list_features():
+            print(f.name)
 
 def usage():
     print("unimplemented")
@@ -189,6 +192,8 @@ def main(argv):
         delete_feature(rest_args)
     elif command == "complete":
         instance.complete_feature(argv[1])
+    elif command == "list":
+        instance.print_features()
     else:
         raise RuntimeError("unsupported")
 
