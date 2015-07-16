@@ -155,6 +155,10 @@ class Bark:
         for f in self.feature_db.list_features():
             print(f.name)
 
+    def print_base(self):
+        f = self.feature_db.get_feature_by_name(self.source_control.current_branch())
+        print(f.base_rev)
+
 def usage():
     print("unimplemented")
     sys.exit(1)
@@ -204,6 +208,8 @@ def main(argv):
         instance.complete_feature(argv[2])
     elif command == "list":
         instance.print_features()
+    elif command == "print-base":
+        instance.print_base()
     else:
         raise RuntimeError("unsupported")
 
