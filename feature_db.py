@@ -12,6 +12,9 @@ import os
 import sys
 import json
 
+sys.path.append(os.path.dirname(__file__) + "/toposort-1.4")
+
+
 FEATURE_FILE = '.bark_features'
 
 
