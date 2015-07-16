@@ -109,16 +109,21 @@ class Bark:
         self.feature_db.update_feature(f)
 
     def complete_feature(self, feature_name):
+        if not self.feature_db.get_feature_by_name(feature_name):
+            print("Could not find feature: ", feature_name)
+            return
+
         features = self.feature_db.list_features()
 
         # the ones before feature won't be affected
         while features[0].name != feature_name:
+            print("stripping off %s" % features[0].name)
             features.pop(0)
 
         # make sure all dependent features are rebased before deleting
         # the feature
         for f in features[1:]:
-            if f.deps.index(feature_name):
+            if feature_name in f.deps:
                 f.deps.remove(feature_name)
 
             merge_point = self._get_merge_point(f.deps)
@@ -191,7 +196,7 @@ def main(argv):
     elif command == "delete-feature":
         delete_feature(rest_args)
     elif command == "complete":
-        instance.complete_feature(argv[1])
+        instance.complete_feature(argv[2])
     elif command == "list":
         instance.print_features()
     else:
