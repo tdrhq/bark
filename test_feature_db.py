@@ -42,3 +42,16 @@ class TestFeatureDb(unittest.TestCase):
         self.assertEquals("boo", ff.name)
         self.assertEquals(["ab", "c"], ff.deps)
         self.assertEquals("blah", ff.base_rev)
+
+    def test_toposorts(self):
+        f = Feature()
+        f.name = "boo"
+        f.deps = "blah"
+        self.feature_db.add_feature(f)
+
+        f2 = Feature()
+        f2.name = "blah"
+        self.feature_db.add_feature(f2)
+
+        self.assertEquals(["blah", "boo"],
+                          [x.name for x in self.feature_db.list_features()])
