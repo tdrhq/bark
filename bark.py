@@ -101,16 +101,46 @@ class Bark:
             print("first updating " + d)
             self.rebase_all(d)
 
-        merge_point = self.source_control.rev_parse(self.source_control.master())
-
-        if len(deps) > 0:
-            merge_point = self.source_control.multi_merge(deps)
-
+        merge_point = self._get_merge_point(deps)
 
         self.source_control.checkout(feature)
         self.source_control.rebase(merge_point, base=f.base_rev)
         f.base_rev = merge_point
         self.feature_db.update_feature(f)
+
+    def complete_feature(self, feature_name):
+        features = self.feature_db.list_features()
+
+        # the ones before feature won't be affected
+        while features[0].name != feature_name:
+            features.pop(0)
+
+        # make sure all dependent features are rebased before deleting
+        # the feature
+        for f in features[1:]:
+            if f.deps.index(feature_name):
+                f.deps.remove(feature_name)
+
+            merge_point = self._get_merge_point(f.deps)
+
+            if merge_point == f.base_rev:
+                continue
+
+            self.source_control.checkout(f.name)
+            self.source_control.rebase(merge_point, base=f.base_rev)
+            f.base_rev = merge_point
+            self.feature_db.update_feature(f)
+
+        self.feature_db.delete_feature_by_name(feature_name)
+
+    def _get_merge_point(self, deps):
+        merge_point = self.source_control.rev_parse(self.source_control.master())
+
+        if len(deps) > 0:
+            merge_point = self.source_control.multi_merge(deps)
+
+        return merge_point
+
 
 def usage():
     print("unimplemented")
