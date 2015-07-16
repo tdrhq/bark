@@ -224,7 +224,7 @@ class TestBark(unittest.TestCase):
         self.assertTrue(os.path.exists("ee"))
         self.assertFalse(os.path.exists("dd"))
         try:
-            self.assertNotEquals("", self.source_control.rev_parse("foo"))
+            self.source_control.rev_parse("foo")
             self.fail("expected foo to not exist")
         except Exception:
             pass  # expected
