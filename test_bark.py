@@ -229,13 +229,18 @@ class TestBark(unittest.TestCase):
         except BadRev:
             pass  # expected
 
-    # def test_complete_current_feature(self):
-    #     master = self.add_commit(bb="boo")
-    #     self.bark.create_feature("foo")
-    #     self.add_commit(cc="ddd")
+    def test_complete_current_feature(self):
+        master = self.add_commit(bb="boo")
+        self.bark.create_feature("foo")
+        self.add_commit(cc="ddd")
 
-    #     self.bark.complete_feature("foo")
-    #     self.assertFalse(os.path.exists("cc"))
+        self.bark.complete_feature("foo")
+        self.assertFalse(os.path.exists("cc"))
+        try:
+            self.source_control.rev_parse("foo")
+            self.fail("expected foo to not exist")
+        except BadRev:
+            pass  # expected
 
 if __name__ == '__main__':
     unittest.main()
