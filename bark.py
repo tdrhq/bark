@@ -26,8 +26,7 @@ class Bark:
         self.feature_db = FeatureDb()
 
     def init(self):
-        pass
-        # os.chdir(self.source_control.get_root_dir())
+        os.chdir(self.source_control.get_root())
 
     def manage_feature(self, feature, base_rev=None):
         self.source_control.rev_parse(feature)
