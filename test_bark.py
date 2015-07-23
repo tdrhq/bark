@@ -138,6 +138,12 @@ class TestBark(unittest.TestCase):
         f = self.bark.feature_db.get_feature_by_name("foobar")
         self.assertEquals(hash, f.base_rev)
 
+    def test_create_feature_with_parent(self):
+        self.bark.create_feature("foo")
+        self.bark.create_feature("bar", parent="foo")
+        f = self.bark.feature_db.get_feature_by_name("bar")
+        self.assertEquals(["foo"], f.deps)
+
     def test_doesnt_allow_me_to_add_dep_when_base_commit_is_differentt(self):
         self.bark.create_feature("foo")
         self.add_commit(y="bsdfdsf")
@@ -241,6 +247,23 @@ class TestBark(unittest.TestCase):
             self.fail("expected foo to not exist")
         except BadRev:
             pass  # expected
+
+    def test_rebase2(self):
+        self.bark.create_feature("foo")
+        self.add_commit(cc="dd")
+        self.bark.create_feature("bar", parent="foo")
+        self.add_commit(dd="boo")
+        self.assertTrue(os.path.exists("cc"))
+
+        self.source_control.checkout("foo")
+        self.add_commit(ff="dfdfd")
+
+        self.source_control.checkout("bar")
+        self.bark.rebase("bar")
+
+        self.assertTrue(os.path.exists("dd"))
+        self.assertTrue(os.path.exists("cc"))
+        self.assertTrue(os.path.exists("ff"))
 
 if __name__ == '__main__':
     unittest.main()

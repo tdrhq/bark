@@ -34,10 +34,17 @@ class Bark:
         self.feature_db.add_feature(f)
 
     def create_feature(self, name, parent=None):
+        add_dep = True
         if not parent:
             parent = self.source_control.master()
+            add_dep = False
         self.source_control.add_branch(name, parent)
         self.manage_feature(name, base_rev=source_control.rev_parse())
+
+        f = self.feature_db.get_feature_by_name(name)
+        if add_dep:
+            f.deps.append(parent)
+            self.feature_db.update_feature(f)
 
     def _validate_mergeable(self):
         features = self.list_features()
@@ -105,6 +112,20 @@ class Bark:
 
         self.source_control.checkout(feature)
         self.source_control.rebase(merge_point, base=f.base_rev)
+        f.base_rev = merge_point
+        self.feature_db.update_feature(f)
+
+    def rebase(self, feature=None):
+        feature = feature or self.source_control.current_branch()
+        f = self.feature_db.get_feature_by_name(feature)
+        self.source_control.checkout(feature)
+
+        # todo: toposort and only use direct deps
+        print(f.deps)
+        merge_point = self._get_merge_point(f.deps)
+        self.source_control.rebase(merge_point, base=f.base_rev)
+
+
         f.base_rev = merge_point
         self.feature_db.update_feature(f)
 
@@ -208,6 +229,8 @@ def main(argv):
         instance.complete_feature(argv[2])
     elif command == "list":
         instance.print_features()
+    elif command == "rebase":
+        instance.rebase()
     elif command == "print-base":
         instance.print_base()
     else:
