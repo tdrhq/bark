@@ -29,7 +29,12 @@ class SourceControl:
         return self._master
 
     def get_root(self):
-        return os.getcwd()
+        curdir = os.getcwd()
+
+        while not os.path.exists(os.path.join(curdir, ".git")):
+            curdir = os.path.abspath(curdir + "/..")
+
+        return curdir
 
     def checkout(self, name):
         subprocess.check_call(["git", "checkout", name])
