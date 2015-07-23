@@ -187,7 +187,8 @@ def usage():
     print("unimplemented")
     sys.exit(1)
 
-def cmd_feature(args, options):
+def cmd_feature(args):
+
     feature_name = args[1]
     dep = (args[2] if len(args) == 3 else None)
     instance.create_feature(feature_name, parent=dep)
@@ -226,7 +227,7 @@ def main(argv):
     elif command == "add_dep":
         instance.add_dep(rest_args[1], rest_args[2])
     elif command =="feature":
-        cmd_feature(rest_args, options)
+        cmd_feature(rest_args)
     elif command == "delete-feature":
         delete_feature(rest_args)
     elif command == "complete":
