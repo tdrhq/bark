@@ -126,5 +126,8 @@ class TestSourceControl(unittest.TestCase):
         self.assertTrue(exists("d"))
         self.assertTrue(exists("f"))
 
+    def test_get_root_dir(self):
+        self.assertEquals(os.getcwd(), self.sc.get_root())
+
 if __name__ == '__main__':
     unittest.main()

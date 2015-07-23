@@ -28,6 +28,9 @@ class SourceControl:
     def master(self):
         return self._master
 
+    def get_root(self):
+        return os.getcwd()
+
     def checkout(self, name):
         subprocess.check_call(["git", "checkout", name])
 

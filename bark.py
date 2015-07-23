@@ -25,6 +25,10 @@ class Bark:
         self.source_control = source_control
         self.feature_db = FeatureDb()
 
+    def init(self):
+        pass
+        # os.chdir(self.source_control.get_root_dir())
+
     def manage_feature(self, feature, base_rev=None):
         self.source_control.rev_parse(feature)
 
@@ -201,6 +205,7 @@ def manage(rest_args, root_options):
     instance.manage_feature(rest_args[1])
 
 def main(argv):
+    instance.init()
     try:
         options, rest_args = getopt.gnu_getopt(
             argv[1:],
