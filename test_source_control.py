@@ -10,7 +10,7 @@ import os
 import subprocess
 import bark
 
-from source_control import SourceControl
+from source_control import SourceControl, NotARepo
 from subprocess import *
 
 from os.path import exists
@@ -132,6 +132,14 @@ class TestSourceControl(unittest.TestCase):
         os.mkdir("foo")
         os.chdir("foo")
         self.assertEquals(root, self.sc.get_root())
+
+    def test_no_git_dir(self):
+        shutil.rmtree(".git")
+
+        try:
+            self.sc.get_root()
+        except NotARepo:
+            pass  # expected
 
 if __name__ == '__main__':
     unittest.main()

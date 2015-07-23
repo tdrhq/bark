@@ -15,6 +15,9 @@ import sys
 class BadRev(BaseException):
     pass
 
+class NotARepo(BaseException):
+    pass
+
 class SourceControl:
     def __init__(self, master="origin/master"):
         self._master = master
@@ -33,6 +36,9 @@ class SourceControl:
 
         while not os.path.exists(os.path.join(curdir, ".git")):
             curdir = os.path.abspath(curdir + "/..")
+
+            if curdir == "/":
+                raise NotARepo()
 
         return curdir
 
