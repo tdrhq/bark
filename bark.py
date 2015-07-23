@@ -206,7 +206,7 @@ def manage(rest_args, root_options):
 def main(argv):
     instance.init()
     try:
-        options, rest_args = getopt.gnu_getopt(
+        options, rest_args = getopt.getopt(
             argv[1:],
             "",
             [
