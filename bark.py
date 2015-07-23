@@ -183,12 +183,17 @@ class Bark:
         f = self.feature_db.get_feature_by_name(self.source_control.current_branch())
         print(f.base_rev)
 
+    def print_deps(self):
+        f = self.feature_db.get_feature_by_name(self.source_control.current_branch())
+        for x in f.deps:
+            print(x)
+
 def usage():
     print("unimplemented")
     sys.exit(1)
 
 def cmd_feature(args):
-    rest_args, options = getopt.getopt(
+    options, rest_args = getopt.gnu_getopt(
         args[1:],
         "",
         [
@@ -251,6 +256,8 @@ def main(argv):
         instance.rebase()
     elif command == "print-base":
         instance.print_base()
+    elif command == "print-deps":
+        instance.print_deps()
     else:
         raise RuntimeError("unsupported")
 
