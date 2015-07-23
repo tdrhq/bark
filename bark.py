@@ -190,7 +190,7 @@ def usage():
 def cmd_feature(args):
     rest_args, options = getopt.getopt(
         args[1:],
-        ""
+        "",
         [
             "continue",
         ]
