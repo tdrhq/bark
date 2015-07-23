@@ -188,9 +188,22 @@ def usage():
     sys.exit(1)
 
 def cmd_feature(args):
+    rest_args, options = getopt.getopt(
+        args[1:],
+        ""
+        [
+            "continue",
+        ]
+    )
+    print(rest_args)
+    print(options)
 
-    feature_name = args[1]
-    dep = (args[2] if len(args) == 3 else None)
+    feature_name = rest_args[0]
+    dep = (rest_args[1] if len(rest_args) == 2 else None)
+
+    if "--continue" in dict(options):
+        dep = source_control.current_branch()
+
     instance.create_feature(feature_name, parent=dep)
 
 def delete_feature(args):
